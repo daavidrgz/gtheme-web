@@ -1,0 +1,98 @@
+---
+interface Props {
+  command: string;
+}
+const { command } = Astro.props;
+---
+
+<div class="cmd" data-command={command}>
+  <span class="prompt">$</span>
+  <code class="cmd-text">{command}</code>
+  <button class="copy" type="button" aria-label="Copy command to clipboard">
+    <svg class="ic-copy" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+    <svg class="ic-check" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 6 9 17l-5-5"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .cmd {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 720px;
+    padding: 0.85rem 0.85rem 0.85rem 1.1rem;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  .prompt {
+    color: var(--green);
+    user-select: none;
+  }
+  .cmd-text {
+    flex: 1;
+    color: var(--fg);
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .cmd-text::-webkit-scrollbar {
+    display: none;
+  }
+  .copy {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--fg-dim);
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .copy:hover {
+    color: var(--fg);
+    border-color: var(--accent);
+  }
+  .ic-check {
+    display: none;
+    color: var(--green);
+  }
+  .copy.copied .ic-copy {
+    display: none;
+  }
+  .copy.copied .ic-check {
+    display: block;
+  }
+  .copy.copied {
+    border-color: var(--green);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLDivElement>(".cmd").forEach((el) => {
+    const btn = el.querySelector<HTMLButtonElement>(".copy");
+    const command = el.dataset.command ?? "";
+    btn?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(command);
+        btn.classList.add("copied");
+        setTimeout(() => btn.classList.remove("copied"), 1600);
+      } catch {
+        /* clipboard unavailable */
+      }
+    });
+  });
+</script>

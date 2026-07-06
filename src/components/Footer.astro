@@ -1,0 +1,93 @@
+---
+const links = [
+  { label: "GitHub", href: "https://github.com/daavidrgz/gtheme" },
+  { label: "Desktops", href: "https://github.com/daavidrgz/gtheme-desktops" },
+  { label: "Themes", href: "https://github.com/daavidrgz/gtheme-themes" },
+  { label: "Wallpapers", href: "https://github.com/daavidrgz/gtheme-wallpapers" },
+  { label: "Docs", href: "https://github.com/daavidrgz/gtheme-docs" },
+];
+---
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark">G</span>
+      <div>
+        <div class="fb-name">gtheme</div>
+        <div class="fb-tag">Blazingly fast theme manager for *NIX</div>
+      </div>
+    </div>
+
+    <nav class="footer-links">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+  </div>
+  <div class="wrap footer-legal">
+    <span>Dual-licensed MIT / Apache-2.0</span>
+    <span>Made with 🦀 for the ricing community · r/unixporn</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-elev);
+    padding-block: 2.5rem 2rem;
+    margin-top: 2rem;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--on-accent);
+    background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  }
+  .fb-name {
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  .fb-tag {
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+  }
+  .footer-links {
+    display: flex;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    font-size: 0.92rem;
+  }
+  .footer-links a {
+    color: var(--fg-dim);
+  }
+  .footer-links a:hover {
+    color: var(--fg);
+  }
+  .footer-legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+  }
+</style>

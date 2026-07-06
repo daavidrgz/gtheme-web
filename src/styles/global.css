@@ -1,0 +1,299 @@
+/* ------------------------------------------------------------------ *
+ *  Gtheme landing — palettes are real ricing themes, swapped live via
+ *  [data-theme] on <html>. The whole page is a working demo of the tool.
+ * ------------------------------------------------------------------ */
+
+:root,
+:root[data-theme="tokyonight"] {
+  --bg: #1a1b26;
+  --bg-elev: #1f2335;
+  --bg-elev-2: #24283b;
+  --border: #2f334d;
+  --fg: #c0caf5;
+  --fg-dim: #9aa5ce;
+  --fg-muted: #565f89;
+  --blue: #7aa2f7;
+  --cyan: #7dcfff;
+  --purple: #bb9af7;
+  --green: #9ece6a;
+  --orange: #ff9e64;
+  --red: #f7768e;
+  --yellow: #e0af68;
+  --accent: var(--purple);
+  --accent-2: var(--blue);
+  --on-accent: #0d1017;
+}
+
+:root[data-theme="catppuccin"] {
+  --bg: #1e1e2e;
+  --bg-elev: #181825;
+  --bg-elev-2: #313244;
+  --border: #45475a;
+  --fg: #cdd6f4;
+  --fg-dim: #bac2de;
+  --fg-muted: #6c7086;
+  --blue: #89b4fa;
+  --cyan: #94e2d5;
+  --purple: #cba6f7;
+  --green: #a6e3a1;
+  --orange: #fab387;
+  --red: #f38ba8;
+  --yellow: #f9e2af;
+  --accent: var(--purple);
+  --accent-2: var(--blue);
+  --on-accent: #11111b;
+}
+
+:root[data-theme="gruvbox"] {
+  --bg: #282828;
+  --bg-elev: #1d2021;
+  --bg-elev-2: #3c3836;
+  --border: #504945;
+  --fg: #ebdbb2;
+  --fg-dim: #d5c4a1;
+  --fg-muted: #928374;
+  --blue: #83a598;
+  --cyan: #8ec07c;
+  --purple: #d3869b;
+  --green: #b8bb26;
+  --orange: #fe8019;
+  --red: #fb4934;
+  --yellow: #fabd2f;
+  --accent: var(--orange);
+  --accent-2: var(--yellow);
+  --on-accent: #1d2021;
+}
+
+:root[data-theme="dracula"] {
+  --bg: #282a36;
+  --bg-elev: #21222c;
+  --bg-elev-2: #343746;
+  --border: #44475a;
+  --fg: #f8f8f2;
+  --fg-dim: #d0d2e0;
+  --fg-muted: #6272a4;
+  --blue: #8be9fd;
+  --cyan: #8be9fd;
+  --purple: #bd93f9;
+  --green: #50fa7b;
+  --orange: #ffb86c;
+  --red: #ff5555;
+  --yellow: #f1fa8c;
+  --accent: var(--purple);
+  --accent-2: #ff79c6;
+  --on-accent: #21222c;
+}
+
+:root[data-theme="nord"] {
+  --bg: #2e3440;
+  --bg-elev: #272c36;
+  --bg-elev-2: #3b4252;
+  --border: #434c5e;
+  --fg: #eceff4;
+  --fg-dim: #d8dee9;
+  --fg-muted: #7b88a1;
+  --blue: #81a1c1;
+  --cyan: #88c0d0;
+  --purple: #b48ead;
+  --green: #a3be8c;
+  --orange: #d08770;
+  --red: #bf616a;
+  --yellow: #ebcb8b;
+  --accent: var(--cyan);
+  --accent-2: var(--blue);
+  --on-accent: #2e3440;
+}
+
+:root[data-theme="rosepine"] {
+  --bg: #191724;
+  --bg-elev: #1f1d2e;
+  --bg-elev-2: #26233a;
+  --border: #403d52;
+  --fg: #e0def4;
+  --fg-dim: #908caa;
+  --fg-muted: #6e6a86;
+  --blue: #31748f;
+  --cyan: #9ccfd8;
+  --purple: #c4a7e7;
+  --green: #9ccfd8;
+  --orange: #ebbcba;
+  --red: #eb6f92;
+  --yellow: #f6c177;
+  --accent: var(--purple);
+  --accent-2: var(--cyan);
+  --on-accent: #191724;
+}
+
+:root {
+  --radius: 14px;
+  --radius-sm: 8px;
+  --maxw: 1120px;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Fira Code", Menlo,
+    Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Live theme swap: animate only color-ish properties so hover/transform
+   handlers stay snappy. */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    fill 0.4s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* faint terminal grid, tinted by the active theme's accent */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(70% 55% at 50% 0%, #000 0%, transparent 75%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+a {
+  color: var(--accent-2);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a:hover {
+  color: var(--accent);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.section {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+
+.section-head {
+  max-width: 60ch;
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+.eyebrow::before {
+  content: "// ";
+  color: var(--fg-muted);
+}
+
+.h2 {
+  font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+}
+
+.grad {
+  background: linear-gradient(
+    110deg,
+    var(--accent-2),
+    var(--accent),
+    var(--orange)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.78rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.2s ease,
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  color: var(--on-accent);
+  box-shadow: 0 10px 28px -10px var(--accent);
+}
+.btn-primary:hover {
+  color: var(--on-accent);
+}
+.btn-ghost {
+  background: var(--bg-elev);
+  border-color: var(--border);
+  color: var(--fg);
+}
+.btn-ghost:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation: none !important;
+  }
+}

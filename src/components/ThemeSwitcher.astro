@@ -1,0 +1,156 @@
+---
+// The live demo: each chip swaps [data-theme] on <html>, re-coloring the
+// entire page through CSS custom properties — exactly what Gtheme does to a
+// real desktop.
+const themes = [
+  { id: "tokyonight", label: "Tokyo Night" },
+  { id: "catppuccin", label: "Catppuccin" },
+  { id: "gruvbox", label: "Gruvbox" },
+  { id: "dracula", label: "Dracula" },
+  { id: "nord", label: "Nord" },
+  { id: "rosepine", label: "Rosé Pine" },
+];
+---
+
+<div class="switcher" role="group" aria-label="Preview a theme">
+  <span class="switcher-label">
+    <span class="cmd-prompt">$</span> gtheme theme apply
+  </span>
+  <div class="chips">
+    {
+      themes.map((t) => (
+        <button
+          class="chip"
+          type="button"
+          data-set-theme={t.id}
+          aria-label={`Apply ${t.label} theme`}
+        >
+          <span class={`swatch swatch-${t.id}`} aria-hidden="true" />
+          {t.label}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .switcher {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .switcher-label {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--fg-dim);
+  }
+  .cmd-prompt {
+    color: var(--green);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--fg-dim);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.12s ease;
+  }
+  .chip:hover {
+    color: var(--fg);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .chip[aria-pressed="true"] {
+    color: var(--fg);
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, var(--bg-elev));
+  }
+  .swatch {
+    width: 30px;
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(
+      90deg,
+      var(--s1) 0 33%,
+      var(--s2) 33% 66%,
+      var(--s3) 66% 100%
+    );
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+  .swatch-tokyonight {
+    --s1: #7aa2f7;
+    --s2: #bb9af7;
+    --s3: #9ece6a;
+  }
+  .swatch-catppuccin {
+    --s1: #89b4fa;
+    --s2: #cba6f7;
+    --s3: #a6e3a1;
+  }
+  .swatch-gruvbox {
+    --s1: #fe8019;
+    --s2: #fabd2f;
+    --s3: #b8bb26;
+  }
+  .swatch-dracula {
+    --s1: #bd93f9;
+    --s2: #ff79c6;
+    --s3: #50fa7b;
+  }
+  .swatch-nord {
+    --s1: #81a1c1;
+    --s2: #88c0d0;
+    --s3: #a3be8c;
+  }
+  .swatch-rosepine {
+    --s1: #c4a7e7;
+    --s2: #ebbcba;
+    --s3: #9ccfd8;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const buttons =
+    document.querySelectorAll<HTMLButtonElement>("[data-set-theme]");
+
+  function sync(active: string) {
+    buttons.forEach((b) =>
+      b.setAttribute(
+        "aria-pressed",
+        String(b.dataset.setTheme === active),
+      ),
+    );
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const theme = btn.dataset.setTheme!;
+      root.dataset.theme = theme;
+      try {
+        localStorage.setItem("gtheme:theme", theme);
+      } catch {
+        /* storage blocked — theme still applies for this session */
+      }
+      sync(theme);
+    });
+  });
+
+  sync(root.dataset.theme ?? "tokyonight");
+</script>
