@@ -1,0 +1,183 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<Layout title={`${post.data.title} — Gtheme blog`} description={post.data.description}>
+  <Nav />
+  <main class="post-page" data-accent={post.data.accent}>
+    <article>
+      <header class="post-hero section">
+        <div class="wrap reveal">
+          <a class="crumb" href="/blog">← All posts</a>
+          <div class="ph-meta">
+            <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+            <span class="dot-sep">·</span>
+            <span>{post.data.author}</span>
+          </div>
+          <h1 class="ph-title">{post.data.title}</h1>
+          <p class="lede">{post.data.description}</p>
+          <div class="ph-tags">
+            {post.data.tags.map((t) => <span class="tag-chip">#{t}</span>)}
+          </div>
+        </div>
+      </header>
+
+      <hr class="seam" />
+
+      <div class="wrap prose reveal">
+        <Content />
+      </div>
+    </article>
+
+    <section class="section">
+      <div class="wrap end-cta reveal">
+        <h2 class="h2">Reskin your desktop in one command.</h2>
+        <a href="/#install" class="btn btn-primary">
+          <span class="cta-prompt">$</span> gtheme install
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .post-page { --acc: var(--accent); }
+  .post-page[data-accent="purple"] { --acc: var(--purple); }
+  .post-page[data-accent="yellow"] { --acc: var(--yellow); }
+  .post-page[data-accent="cyan"]   { --acc: var(--cyan); }
+  .post-page[data-accent="green"]  { --acc: var(--green); }
+  .post-page[data-accent="orange"] { --acc: var(--orange); }
+  .post-page[data-accent="blue"]   { --acc: var(--blue); }
+
+  .post-hero { padding-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+  .crumb {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+  }
+  .ph-meta {
+    margin-top: 1.4rem;
+    display: flex;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+  }
+  .ph-title {
+    font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+    letter-spacing: -0.03em;
+    margin: 0.8rem 0 1.2rem;
+    text-wrap: balance;
+    max-width: 22ch;
+  }
+  .post-hero .lede { max-width: 60ch; }
+  .ph-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+    flex-wrap: wrap;
+  }
+  .tag-chip {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+  }
+
+  /* prose */
+  .prose {
+    max-width: 68ch;
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+    font-size: 1.08rem;
+    line-height: 1.75;
+    color: var(--fg-dim);
+  }
+  .prose :global(h2) {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    color: var(--fg);
+    margin: 2.6rem 0 1rem;
+  }
+  .prose :global(h2::before) {
+    content: "";
+    display: inline-block;
+    width: 26px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--acc);
+    margin-right: 0.7rem;
+    vertical-align: middle;
+  }
+  .prose :global(p) { margin: 1.1rem 0; }
+  .prose :global(strong) { color: var(--fg); font-weight: 600; }
+  .prose :global(a) { color: var(--acc); text-decoration: underline; text-underline-offset: 3px; }
+  .prose :global(ul) {
+    margin: 1.1rem 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .prose :global(li) {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+  .prose :global(li::before) {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--acc);
+  }
+  .prose :global(pre) {
+    background: var(--bg-elev) !important;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.1rem 1.2rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 1.6rem 0;
+  }
+  .prose :global(:not(pre) > code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--fg);
+    background: var(--bg-elev-2);
+    padding: 0.1rem 0.4rem;
+    border-radius: 5px;
+  }
+
+  .end-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .cta-prompt { font-family: var(--font-mono); opacity: 0.7; }
+</style>

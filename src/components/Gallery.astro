@@ -1,0 +1,149 @@
+---
+// The "same rig, many looks" wall. Each card hard-codes one real palette so
+// the whole spectrum shows at once — independent of the live page theme.
+const looks = [
+  { name: "Tokyo Night", bg: "#1a1b26", el: "#24283b", fg: "#c0caf5", a: "#7aa2f7", b: "#bb9af7", g: "#9ece6a" },
+  { name: "Gruvbox", bg: "#282828", el: "#3c3836", fg: "#ebdbb2", a: "#fe8019", b: "#fabd2f", g: "#b8bb26" },
+  { name: "Catppuccin", bg: "#1e1e2e", el: "#313244", fg: "#cdd6f4", a: "#cba6f7", b: "#89b4fa", g: "#a6e3a1" },
+  { name: "Dracula", bg: "#282a36", el: "#343746", fg: "#f8f8f2", a: "#bd93f9", b: "#ff79c6", g: "#50fa7b" },
+  { name: "Nord", bg: "#2e3440", el: "#3b4252", fg: "#eceff4", a: "#88c0d0", b: "#81a1c1", g: "#a3be8c" },
+  { name: "Rosé Pine", bg: "#191724", el: "#26233a", fg: "#e0def4", a: "#c4a7e7", b: "#ebbcba", g: "#9ccfd8" },
+];
+---
+
+<section class="section section--ruled" id="showcase">
+  <div class="wrap-wide">
+    <div class="section-head reveal">
+      <span class="eyebrow">showcase</span>
+      <h2 class="h2">One desktop. Every mood.</h2>
+      <p class="lede">
+        The same setup wearing six of the 350+ palettes. Nothing was
+        hand-edited between them — that's a single <code>gtheme apply</code>.
+      </p>
+    </div>
+
+    <div class="gallery reveal">
+      {
+        looks.map((l) => (
+          <figure
+            class="look"
+            style={`--l-bg:${l.bg};--l-el:${l.el};--l-fg:${l.fg};--l-a:${l.a};--l-b:${l.b};--l-g:${l.g}`}
+          >
+            <div class="scene" aria-hidden="true">
+              <div class="scene-bar">
+                <span class="sb-ws sb-on">1</span>
+                <span class="sb-ws">2</span>
+                <span class="sb-time">◷ 09:41</span>
+              </div>
+              <div class="scene-term">
+                <p><span class="t-a">❯</span> gtheme theme apply</p>
+                <p class="t-g">✓ 42 targets · 128ms</p>
+                <div class="scene-pal">
+                  <span style="background:var(--l-a)" />
+                  <span style="background:var(--l-b)" />
+                  <span style="background:var(--l-g)" />
+                  <span style="background:var(--l-fg)" />
+                </div>
+              </div>
+            </div>
+            <figcaption>{l.name}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.3rem;
+  }
+  .look {
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--l-el);
+    transition: transform 0.16s ease, box-shadow 0.2s ease;
+  }
+  .look:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 55px -30px var(--l-a);
+  }
+  .scene {
+    background:
+      radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--l-a) 40%, transparent), transparent 55%),
+      radial-gradient(120% 90% at 0% 100%, color-mix(in srgb, var(--l-b) 32%, transparent), transparent 50%),
+      var(--l-bg);
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    min-height: 190px;
+  }
+  .scene-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+  .sb-ws {
+    padding: 0.1rem 0.5rem;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--l-el) 75%, transparent);
+    color: color-mix(in srgb, var(--l-fg) 70%, transparent);
+  }
+  .sb-on {
+    background: var(--l-a);
+    color: var(--l-bg);
+    font-weight: 700;
+  }
+  .sb-time {
+    margin-left: auto;
+    color: color-mix(in srgb, var(--l-fg) 60%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+  .scene-term {
+    margin-top: auto;
+    background: color-mix(in srgb, var(--l-el) 85%, transparent);
+    border: 1px solid color-mix(in srgb, var(--l-fg) 12%, transparent);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+  .scene-term p {
+    margin: 0 0 0.25rem;
+    color: color-mix(in srgb, var(--l-fg) 85%, transparent);
+  }
+  .t-a { color: var(--l-a); }
+  .t-g { color: var(--l-g); }
+  .scene-pal {
+    display: flex;
+    gap: 4px;
+    margin-top: 0.5rem;
+  }
+  .scene-pal span {
+    width: 22px;
+    height: 10px;
+    border-radius: 3px;
+  }
+  figcaption {
+    padding: 0.85rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--fg-dim);
+    border-top: 1px solid var(--border);
+    background: var(--bg-elev);
+  }
+  @media (max-width: 820px) {
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .gallery { grid-template-columns: 1fr; }
+  }
+</style>

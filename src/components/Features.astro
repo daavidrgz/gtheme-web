@@ -1,78 +1,53 @@
 ---
-const features = [
-  {
-    icon: "swatches",
-    title: "+350 themes & wallpapers",
-    body: "A huge curated palette library. Every color, everywhere, changes at once — terminal, bar, editor, wallpaper.",
-    span: "big",
-    accent: "purple",
-  },
-  {
-    icon: "bolt",
-    title: "One command",
-    body: "Swap your entire desktop — apps, colors, wallpaper — with a single invocation.",
-    accent: "yellow",
-  },
-  {
-    icon: "hub",
-    title: "Centralized & automated",
-    body: "Define theming once. Gtheme propagates it across every app, consistently.",
-    accent: "cyan",
-  },
-  {
-    icon: "template",
-    title: "Pattern templating",
-    body: "Write config patterns with generic attributes; Gtheme fills them per theme. No manual editing.",
-    accent: "green",
-  },
-  {
-    icon: "package",
-    title: "Plug 'n' play desktops",
-    body: "Install ready-made desktop configs from other people and everything just works.",
-    accent: "orange",
-    span: "wide",
-  },
-];
-
-const icons: Record<string, string> = {
-  swatches:
-    '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',
-  bolt: '<path d="M13 2 3 14h7l-1 8 10-12h-7z"/>',
-  hub: '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="2"/><circle cx="12" cy="20" r="2"/><circle cx="4" cy="8" r="2"/><circle cx="20" cy="8" r="2"/><circle cx="4" cy="16" r="2"/><circle cx="20" cy="16" r="2"/>',
-  template:
-    '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/>',
-  package:
-    '<path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/>',
-};
+import { features } from "../data/features";
 ---
 
-<section class="section" id="features">
+<section class="section section--ruled" id="features">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="eyebrow">what it does</span>
       <h2 class="h2">Your ricing, standardized and automated.</h2>
+      <p class="lede">
+        Define your look once. Gtheme keeps every app, every machine, and every
+        theme in lock-step — no manual editing, ever.
+      </p>
     </div>
 
-    <div class="bento">
+    <div class="bento reveal">
       {
         features.map((f) => (
-          <article class={`card ${f.span ?? ""}`} data-accent={f.accent}>
-            <span class="ic">
-              <svg
-                viewBox="0 0 24 24"
-                width="22"
-                height="22"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                set:html={icons[f.icon]}
-              />
-            </span>
+          <a class={`card ${f.span ?? ""}`} data-accent={f.accent} href={`/features/${f.slug}`}>
+            <div class="card-top">
+              <span class="ic">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} />
+              </span>
+              <span class="card-more">Learn more →</span>
+            </div>
             <h3 class="card-title">{f.title}</h3>
-            <p class="card-body">{f.body}</p>
-          </article>
+            <p class="card-body">{f.blurb}</p>
+
+            {f.slug === "themes" && (
+              <div class="viz-grid" aria-hidden="true">
+                {["#7aa2f7","#bb9af7","#9ece6a","#e0af68","#f7768e","#7dcfff","#fe8019","#b8bb26","#cba6f7","#a6e3a1","#f9e2af","#89b4fa"].map((c) => (
+                  <span style={`background:${c}`} />
+                ))}
+              </div>
+            )}
+            {f.slug === "templating" && (
+              <pre class="viz-code" aria-hidden="true"><code><span class="c-sec">[colors]</span>
+primary = <span class="c-str">"&#123;&#123;accent&#125;&#125;"</span>
+bg      = <span class="c-str">"&#123;&#123;base00&#125;&#125;"</span>
+<span class="c-sec">[prompt]</span>
+ps1 = <span class="c-str">"&#123;&#123;user&#125;&#125;@&#123;&#123;host&#125;&#125;"</span></code></pre>
+            )}
+            {f.slug === "desktops" && (
+              <div class="wm-grid" aria-hidden="true">
+                {["Hyprland","i3","Sway","KDE","GNOME","XFCE"].map((w) => (
+                  <span class="wm">{w}</span>
+                ))}
+              </div>
+            )}
+          </a>
         ))
       }
     </div>
@@ -83,16 +58,29 @@ const icons: Record<string, string> = {
   .bento {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 1rem;
+    gap: 1.1rem;
   }
   .card {
     grid-column: span 2;
+    display: flex;
+    flex-direction: column;
     background: var(--bg-elev);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.6rem;
+    padding: 1.7rem;
     position: relative;
     overflow: hidden;
+    color: inherit;
+    transition:
+      transform 0.16s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--acc);
+    color: inherit;
+    box-shadow: 0 24px 50px -30px var(--acc);
   }
   .card::after {
     content: "";
@@ -100,48 +88,98 @@ const icons: Record<string, string> = {
     inset: 0 0 auto 0;
     height: 3px;
     background: var(--acc);
-    opacity: 0.8;
+    opacity: 0.85;
   }
-  .card.big {
-    grid-column: span 3;
-  }
-  .card.wide {
-    grid-column: span 3;
-  }
+  .card.big { grid-column: span 3; }
+  .card.wide { grid-column: span 3; }
+  .card.tall { grid-column: span 2; }
   .card[data-accent="purple"] { --acc: var(--purple); }
   .card[data-accent="yellow"] { --acc: var(--yellow); }
-  .card[data-accent="cyan"] { --acc: var(--cyan); }
-  .card[data-accent="green"] { --acc: var(--green); }
+  .card[data-accent="cyan"]   { --acc: var(--cyan); }
+  .card[data-accent="green"]  { --acc: var(--green); }
   .card[data-accent="orange"] { --acc: var(--orange); }
+  .card[data-accent="blue"]   { --acc: var(--blue); }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
   .ic {
     display: inline-grid;
     place-items: center;
     width: 42px;
     height: 42px;
-    border-radius: 10px;
+    border-radius: 11px;
     color: var(--acc);
     background: color-mix(in srgb, var(--acc) 14%, transparent);
-    margin-bottom: 1rem;
+  }
+  .card-more {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--fg-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover .card-more {
+    opacity: 1;
+    transform: none;
+    color: var(--acc);
   }
   .card-title {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     margin-bottom: 0.5rem;
   }
-  .card.big .card-title {
-    font-size: 1.5rem;
-  }
+  .card.big .card-title { font-size: 1.6rem; }
   .card-body {
     color: var(--fg-dim);
     font-size: 0.95rem;
   }
+  /* per-card visuals */
+  .viz-grid {
+    margin-top: auto;
+    padding-top: 1.4rem;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+  }
+  .viz-grid span {
+    aspect-ratio: 1.6;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  .viz-code {
+    margin: 1.2rem 0 0;
+    padding: 0.9rem 1rem;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--fg-dim);
+    overflow-x: auto;
+  }
+  .c-sec { color: var(--accent-2); }
+  .c-str { color: var(--green); }
+  .wm-grid {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .wm {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev-2);
+    color: var(--fg-dim);
+  }
   @media (max-width: 860px) {
-    .bento {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .card,
-    .card.big,
-    .card.wide {
-      grid-column: span 2;
-    }
+    .bento { grid-template-columns: repeat(2, 1fr); }
+    .card, .card.big, .card.wide, .card.tall { grid-column: span 2; }
   }
 </style>

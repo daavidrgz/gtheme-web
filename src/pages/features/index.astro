@@ -1,0 +1,150 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { features } from "../../data/features";
+---
+
+<Layout
+  title="Features — Gtheme"
+  description="Everything Gtheme does: 350+ curated themes, one-command desktop switching, centralized config, pattern templating, and plug-n-play desktops."
+>
+  <Nav />
+  <main>
+    <section class="section page-hero">
+      <div class="wrap reveal">
+        <span class="eyebrow">features</span>
+        <h1 class="page-title">
+          Everything you need to <span class="grad">theme once</span>, everywhere.
+        </h1>
+        <p class="lede">
+          Gtheme is small on the surface — one command — and deep underneath.
+          Here's what's doing the work.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--ruled">
+      <div class="wrap">
+        <ul class="feat-list reveal">
+          {
+            features.map((f, i) => (
+              <li>
+                <a class="feat" data-accent={f.accent} href={`/features/${f.slug}`}>
+                  <span class="feat-idx">{String(i + 1).padStart(2, "0")}</span>
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} />
+                  </span>
+                  <span class="feat-text">
+                    <span class="feat-title">{f.title}</span>
+                    <span class="feat-tag">{f.tagline}</span>
+                  </span>
+                  <span class="feat-go" aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    padding-bottom: clamp(2rem, 5vw, 3rem);
+  }
+  .page-title {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: -0.03em;
+    margin: 1.2rem 0 1.4rem;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .page-hero .lede {
+    max-width: 56ch;
+  }
+  .feat-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .feat {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding: 1.5rem 1.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.16s ease, border-color 0.2s ease;
+  }
+  .feat::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--acc);
+  }
+  .feat:hover {
+    transform: translateX(4px);
+    border-color: var(--acc);
+    color: inherit;
+  }
+  .feat[data-accent="purple"] { --acc: var(--purple); }
+  .feat[data-accent="yellow"] { --acc: var(--yellow); }
+  .feat[data-accent="cyan"]   { --acc: var(--cyan); }
+  .feat[data-accent="green"]  { --acc: var(--green); }
+  .feat[data-accent="orange"] { --acc: var(--orange); }
+  .feat[data-accent="blue"]   { --acc: var(--blue); }
+  .feat-idx {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .ic {
+    flex-shrink: 0;
+    display: inline-grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    color: var(--acc);
+    background: color-mix(in srgb, var(--acc) 14%, transparent);
+  }
+  .feat-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .feat-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .feat-tag {
+    color: var(--fg-dim);
+    font-size: 0.95rem;
+  }
+  .feat-go {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    color: var(--acc);
+    transition: transform 0.2s ease;
+  }
+  .feat:hover .feat-go {
+    transform: translateX(4px);
+  }
+  @media (max-width: 560px) {
+    .feat { gap: 1rem; padding: 1.2rem; }
+    .feat-idx { display: none; }
+  }
+</style>

@@ -1,0 +1,146 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+---
+
+<Layout
+  title="Blog — Gtheme"
+  description="Notes on theming, ricing, and the internals of Gtheme — the blazingly fast theme manager for *NIX."
+>
+  <Nav />
+  <main>
+    <section class="section page-hero">
+      <div class="wrap reveal">
+        <span class="eyebrow">blog</span>
+        <h1 class="page-title">Notes from the <span class="grad">rice fields</span>.</h1>
+        <p class="lede">
+          Releases, deep dives, and the occasional opinion on making *NIX
+          desktops beautiful and reproducible.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--ruled">
+      <div class="wrap">
+        <ul class="posts reveal">
+          {
+            posts.map((p) => (
+              <li>
+                <a class="post" data-accent={p.data.accent} href={`/blog/${p.id}`}>
+                  <div class="post-meta">
+                    <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+                    <span class="dot-sep">·</span>
+                    <span>{p.data.author}</span>
+                  </div>
+                  <h2 class="post-title">{p.data.title}</h2>
+                  <p class="post-desc">{p.data.description}</p>
+                  <div class="post-tags">
+                    {p.data.tags.map((t) => (
+                      <span class="tag-chip">#{t}</span>
+                    ))}
+                    <span class="post-read">Read →</span>
+                  </div>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero { padding-bottom: clamp(2rem, 5vw, 3rem); }
+  .page-title {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: -0.03em;
+    margin: 1.2rem 0 1.4rem;
+    text-wrap: balance;
+  }
+  .page-hero .lede { max-width: 56ch; }
+  .posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .post {
+    display: block;
+    padding: 1.8rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.16s ease, border-color 0.2s ease;
+  }
+  .post::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--acc);
+  }
+  .post:hover { transform: translateY(-3px); border-color: var(--acc); color: inherit; }
+  .post[data-accent="purple"] { --acc: var(--purple); }
+  .post[data-accent="yellow"] { --acc: var(--yellow); }
+  .post[data-accent="cyan"]   { --acc: var(--cyan); }
+  .post[data-accent="green"]  { --acc: var(--green); }
+  .post[data-accent="orange"] { --acc: var(--orange); }
+  .post[data-accent="blue"]   { --acc: var(--blue); }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+  }
+  .post-title {
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    margin: 0.7rem 0 0.5rem;
+  }
+  .post-desc {
+    color: var(--fg-dim);
+    max-width: 68ch;
+  }
+  .post-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.1rem;
+    flex-wrap: wrap;
+  }
+  .tag-chip {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+  }
+  .post-read {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--acc);
+  }
+</style>

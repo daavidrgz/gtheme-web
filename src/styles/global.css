@@ -127,12 +127,16 @@
 :root {
   --radius: 14px;
   --radius-sm: 8px;
+  --radius-lg: 20px;
   --maxw: 1120px;
+  --maxw-wide: 1320px;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Fira Code", Menlo,
     Consolas, monospace;
+  /* premium rhythm: sections breathe */
+  --gap-section: clamp(6rem, 13vw, 10rem);
 }
 
 * {
@@ -166,7 +170,7 @@ body {
   overflow-x: hidden;
 }
 
-/* faint terminal grid, tinted by the active theme's accent */
+/* terminal grid, tinted by the active theme's border color */
 body::before {
   content: "";
   position: fixed;
@@ -175,9 +179,11 @@ body::before {
   background-image:
     linear-gradient(var(--border) 1px, transparent 1px),
     linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: radial-gradient(70% 55% at 50% 0%, #000 0%, transparent 75%);
-  opacity: 0.4;
+  background-size: 52px 52px;
+  /* fade toward the bottom so content still sits on calmer ground, but
+     keep the lines gently present across the upper viewport */
+  mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 92%);
+  opacity: 0.38;
   pointer-events: none;
 }
 
@@ -210,14 +216,41 @@ p {
   margin-inline: auto;
   padding-inline: 1.5rem;
 }
+.wrap-wide {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
 
 .section {
-  padding-block: clamp(3.5rem, 8vw, 6rem);
+  padding-block: var(--gap-section);
+}
+/* hairline rule between stacked sections, tinted by the live theme */
+.section--ruled {
+  border-top: 1px solid var(--border);
 }
 
 .section-head {
-  max-width: 60ch;
-  margin-bottom: 2.5rem;
+  max-width: 62ch;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* the signature "seam": a live-theme vertical light-leak used as a
+   recurring divider/atmosphere across the page. */
+.seam {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border) 12%,
+    var(--accent) 50%,
+    var(--border) 88%,
+    transparent
+  );
+  opacity: 0.5;
+  margin: 0;
 }
 
 .eyebrow {
@@ -288,6 +321,87 @@ p {
   border-color: var(--accent);
 }
 
+/* ------------------------------------------------------------------ *
+ *  Shared terminal-window chrome. Hero, showcase, steps and gallery
+ *  all frame content in the same window so the page reads as one OS.
+ * ------------------------------------------------------------------ */
+.window {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  overflow: hidden;
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.8);
+}
+.window-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0.95rem;
+  background: var(--bg-elev-2);
+  border-bottom: 1px solid var(--border);
+}
+.window-bar .tl {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--fg-muted);
+}
+.window-bar .tl:nth-child(1) { background: var(--red); }
+.window-bar .tl:nth-child(2) { background: var(--yellow); }
+.window-bar .tl:nth-child(3) { background: var(--green); }
+.window-bar .tt {
+  margin-left: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--fg-muted);
+}
+
+/* uppercase mono label used as a section index / eyebrow companion */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--fg-dim);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+}
+
+.lede {
+  color: var(--fg-dim);
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.6;
+}
+.lede strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* scroll-reveal: opt-in, respects reduced motion (see block below) */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -295,5 +409,9 @@ p {
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
     animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }

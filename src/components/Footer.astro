@@ -1,30 +1,66 @@
 ---
-const links = [
-  { label: "GitHub", href: "https://github.com/daavidrgz/gtheme" },
-  { label: "Desktops", href: "https://github.com/daavidrgz/gtheme-desktops" },
-  { label: "Themes", href: "https://github.com/daavidrgz/gtheme-themes" },
-  { label: "Wallpapers", href: "https://github.com/daavidrgz/gtheme-wallpapers" },
-  { label: "Docs", href: "https://github.com/daavidrgz/gtheme-docs" },
+const cols = [
+  {
+    title: "Product",
+    links: [
+      { label: "Features", href: "/features" },
+      { label: "Install", href: "/#install" },
+      { label: "Showcase", href: "/#showcase" },
+      { label: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    title: "Project",
+    links: [
+      { label: "GitHub", href: "https://github.com/daavidrgz/gtheme" },
+      { label: "Desktops", href: "https://github.com/daavidrgz/gtheme-desktops" },
+      { label: "Themes", href: "https://github.com/daavidrgz/gtheme-themes" },
+      { label: "Wallpapers", href: "https://github.com/daavidrgz/gtheme-wallpapers" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Docs", href: "https://github.com/daavidrgz/gtheme-docs" },
+      { label: "Issues", href: "https://github.com/daavidrgz/gtheme/issues" },
+      { label: "r/unixporn", href: "https://reddit.com/r/unixporn" },
+    ],
+  },
 ];
 ---
 
 <footer class="footer">
-  <div class="wrap footer-inner">
+  <div class="wrap-wide footer-top">
     <div class="footer-brand">
       <span class="brand-mark">G</span>
       <div>
         <div class="fb-name">gtheme</div>
-        <div class="fb-tag">Blazingly fast theme manager for *NIX</div>
+        <p class="fb-tag">
+          A blazingly fast dotfile &amp; global theme manager for *NIX. Written
+          in Rust.
+        </p>
       </div>
     </div>
 
-    <nav class="footer-links">
-      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    <nav class="footer-cols">
+      {
+        cols.map((c) => (
+          <div class="fcol">
+            <h3 class="fcol-title">{c.title}</h3>
+            {c.links.map((l) => (
+              <a href={l.href}>{l.label}</a>
+            ))}
+          </div>
+        ))
+      }
     </nav>
   </div>
-  <div class="wrap footer-legal">
+
+  <hr class="seam" />
+
+  <div class="wrap-wide footer-legal">
     <span>Dual-licensed MIT / Apache-2.0</span>
-    <span>Made with 🦀 for the ricing community · r/unixporn</span>
+    <span>Made with 🦀 for the ricing community</span>
   </div>
 </footer>
 
@@ -32,27 +68,26 @@ const links = [
   .footer {
     border-top: 1px solid var(--border);
     background: var(--bg-elev);
-    padding-block: 2.5rem 2rem;
-    margin-top: 2rem;
+    padding-block: clamp(3rem, 6vw, 4.5rem) 2rem;
   }
-  .footer-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
   }
   .footer-brand {
     display: flex;
-    align-items: center;
-    gap: 0.8rem;
+    align-items: flex-start;
+    gap: 0.9rem;
   }
   .brand-mark {
+    flex-shrink: 0;
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
     font-family: var(--font-mono);
     font-weight: 700;
     color: var(--on-accent);
@@ -61,21 +96,36 @@ const links = [
   .fb-name {
     font-family: var(--font-mono);
     font-weight: 700;
+    margin-bottom: 0.3rem;
   }
   .fb-tag {
-    font-size: 0.82rem;
+    font-size: 0.86rem;
     color: var(--fg-muted);
+    max-width: 34ch;
   }
-  .footer-links {
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .fcol {
     display: flex;
-    gap: 1.4rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .fcol-title {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 0.2rem;
+  }
+  .fcol a {
+    color: var(--fg-dim);
     font-size: 0.92rem;
   }
-  .footer-links a {
-    color: var(--fg-dim);
-  }
-  .footer-links a:hover {
+  .fcol a:hover {
     color: var(--fg);
   }
   .footer-legal {
@@ -84,10 +134,19 @@ const links = [
     gap: 1rem;
     flex-wrap: wrap;
     margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
     font-family: var(--font-mono);
     font-size: 0.78rem;
     color: var(--fg-muted);
+  }
+  @media (max-width: 760px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .footer-cols {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style>
