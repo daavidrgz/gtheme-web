@@ -39,7 +39,7 @@ const fmt = (d: Date) =>
           {
             posts.map((p) => (
               <li>
-                <a class="post" data-accent={p.data.accent} href={`/blog/${p.id}`}>
+                <a class="post" href={`/blog/${p.id}`}>
                   <div class="post-meta">
                     <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
                     <span class="dot-sep">·</span>
@@ -82,6 +82,7 @@ const fmt = (d: Date) =>
     gap: 1.2rem;
   }
   .post {
+    --acc: var(--accent);
     display: block;
     padding: 1.8rem 2rem;
     border: 1px solid var(--border);
@@ -92,20 +93,7 @@ const fmt = (d: Date) =>
     overflow: hidden;
     transition: transform 0.16s ease, border-color 0.2s ease;
   }
-  .post::after {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 3px;
-    background: var(--acc);
-  }
   .post:hover { transform: translateY(-3px); border-color: var(--acc); color: inherit; }
-  .post[data-accent="purple"] { --acc: var(--purple); }
-  .post[data-accent="yellow"] { --acc: var(--yellow); }
-  .post[data-accent="cyan"]   { --acc: var(--cyan); }
-  .post[data-accent="green"]  { --acc: var(--green); }
-  .post[data-accent="orange"] { --acc: var(--orange); }
-  .post[data-accent="blue"]   { --acc: var(--blue); }
   .post-meta {
     display: flex;
     align-items: center;

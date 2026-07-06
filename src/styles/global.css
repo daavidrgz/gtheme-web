@@ -271,16 +271,9 @@ p {
   font-size: clamp(1.7rem, 3.5vw, 2.5rem);
 }
 
+/* One committed accent — the live theme's own — not a rainbow gradient. */
 .grad {
-  background: linear-gradient(
-    110deg,
-    var(--accent-2),
-    var(--accent),
-    var(--orange)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--accent);
 }
 
 .btn {
@@ -304,12 +297,12 @@ p {
   transform: translateY(-2px);
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  background: var(--accent);
   color: var(--on-accent);
-  box-shadow: 0 10px 28px -10px var(--accent);
 }
 .btn-primary:hover {
   color: var(--on-accent);
+  filter: brightness(1.08);
 }
 .btn-ghost {
   background: var(--bg-elev);

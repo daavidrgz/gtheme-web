@@ -28,10 +28,9 @@ import { features } from "../../data/features";
       <div class="wrap">
         <ul class="feat-list reveal">
           {
-            features.map((f, i) => (
+            features.map((f) => (
               <li>
-                <a class="feat" data-accent={f.accent} href={`/features/${f.slug}`}>
-                  <span class="feat-idx">{String(i + 1).padStart(2, "0")}</span>
+                <a class="feat" href={`/features/${f.slug}`}>
                   <span class="ic">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} />
                   </span>
@@ -74,6 +73,7 @@ import { features } from "../../data/features";
     gap: 1rem;
   }
   .feat {
+    --acc: var(--accent);
     display: flex;
     align-items: center;
     gap: 1.3rem;
@@ -86,29 +86,10 @@ import { features } from "../../data/features";
     overflow: hidden;
     transition: transform 0.16s ease, border-color 0.2s ease;
   }
-  .feat::after {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 3px;
-    background: var(--acc);
-  }
   .feat:hover {
     transform: translateX(4px);
     border-color: var(--acc);
     color: inherit;
-  }
-  .feat[data-accent="purple"] { --acc: var(--purple); }
-  .feat[data-accent="yellow"] { --acc: var(--yellow); }
-  .feat[data-accent="cyan"]   { --acc: var(--cyan); }
-  .feat[data-accent="green"]  { --acc: var(--green); }
-  .feat[data-accent="orange"] { --acc: var(--orange); }
-  .feat[data-accent="blue"]   { --acc: var(--blue); }
-  .feat-idx {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    color: var(--fg-muted);
-    font-variant-numeric: tabular-nums;
   }
   .ic {
     flex-shrink: 0;

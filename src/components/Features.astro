@@ -61,6 +61,7 @@ ps1 = <span class="c-str">"&#123;&#123;user&#125;&#125;@&#123;&#123;host&#125;&#
     gap: 1.1rem;
   }
   .card {
+    --acc: var(--accent);
     grid-column: span 2;
     display: flex;
     flex-direction: column;
@@ -73,32 +74,16 @@ ps1 = <span class="c-str">"&#123;&#123;user&#125;&#125;@&#123;&#123;host&#125;&#
     color: inherit;
     transition:
       transform 0.16s ease,
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
+      border-color 0.2s ease;
   }
   .card:hover {
     transform: translateY(-4px);
     border-color: var(--acc);
     color: inherit;
-    box-shadow: 0 24px 50px -30px var(--acc);
-  }
-  .card::after {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 3px;
-    background: var(--acc);
-    opacity: 0.85;
   }
   .card.big { grid-column: span 3; }
   .card.wide { grid-column: span 3; }
   .card.tall { grid-column: span 2; }
-  .card[data-accent="purple"] { --acc: var(--purple); }
-  .card[data-accent="yellow"] { --acc: var(--yellow); }
-  .card[data-accent="cyan"]   { --acc: var(--cyan); }
-  .card[data-accent="green"]  { --acc: var(--green); }
-  .card[data-accent="orange"] { --acc: var(--orange); }
-  .card[data-accent="blue"]   { --acc: var(--blue); }
   .card-top {
     display: flex;
     align-items: center;

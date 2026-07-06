@@ -15,5 +15,6 @@ pnpm-debug.log*
 # macOS
 .DS_Store
 
-# local AI tooling (Claude Code skills) — not versioned
-.claude/
+# local AI tooling — not versioned, except committed skills
+.claude/*
+!.claude/skills/
