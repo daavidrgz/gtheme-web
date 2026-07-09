@@ -24,9 +24,10 @@ Gtheme collapses all of this into one verb. You define your desktop once. You ap
 
 ## Your config, before and after Gtheme
 
-<DiffCode leftTitle="alacritty.toml — hardcoded for Tokyo Night" rightTitle="alacritty.pattern — works with any theme">
-  <Fragment slot="left">
-[colors.primary]
+<DiffCode
+  leftTitle="alacritty.toml — hardcoded for Tokyo Night"
+  rightTitle="alacritty.pattern — works with any theme"
+  left={`[colors.primary]
 background = "#1a1b26"
 foreground = "#c0caf5"
 
@@ -38,10 +39,8 @@ yellow  = "#e0af68"
 blue    = "#7aa2f7"
 magenta = "#bb9af7"
 cyan    = "#7dcfff"
-white   = "#a9b1d6"
-  </Fragment>
-  <Fragment slot="right">
-[colors.primary]
+white   = "#a9b1d6"`}
+  right={`[colors.primary]
 background = "{{base00}}"
 foreground = "{{base05}}"
 
@@ -53,9 +52,8 @@ yellow  = "{{yellow}}"
 blue    = "{{blue}}"
 magenta = "{{magenta}}"
 cyan    = "{{cyan}}"
-white   = "{{base04}}"
-  </Fragment>
-</DiffCode>
+white   = "{{base04}}"`}
+/>
 
 Change your theme, and every hex value updates across every app automatically. No find-and-replace, no missed files.
 

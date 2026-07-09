@@ -1,5 +1,5 @@
 ---
-const { leftTitle = "Before", rightTitle = "After" } = Astro.props;
+const { leftTitle = "Before", rightTitle = "After", left, right } = Astro.props;
 ---
 
 <div class="diff-grid">
@@ -8,7 +8,7 @@ const { leftTitle = "Before", rightTitle = "After" } = Astro.props;
       <span class="tl"></span><span class="tl"></span><span class="tl"></span>
       <span class="tt">{leftTitle}</span>
     </div>
-    <pre class="code-body"><code><slot name="left" /></code></pre>
+    <pre class="code-body"><code>{left}</code></pre>
   </div>
   <div class="diff-arrow">→</div>
   <div class="window code-win win-accent">
@@ -16,7 +16,7 @@ const { leftTitle = "Before", rightTitle = "After" } = Astro.props;
       <span class="tl"></span><span class="tl"></span><span class="tl"></span>
       <span class="tt">{rightTitle}</span>
     </div>
-    <pre class="code-body"><code><slot name="right" /></code></pre>
+    <pre class="code-body"><code>{right}</code></pre>
   </div>
 </div>
 
@@ -45,6 +45,7 @@ const { leftTitle = "Before", rightTitle = "After" } = Astro.props;
     overflow-x: auto;
     max-height: 320px;
     overflow-y: auto;
+    white-space: pre;
   }
   .win-accent .window-bar {
     border-bottom-color: var(--acc);
