@@ -18,3 +18,9 @@ pnpm-debug.log*
 # local AI tooling — not versioned, except committed skills
 .claude/*
 !.claude/skills/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
