@@ -7,6 +7,8 @@ tags: ["ricing", "theming", "comparison"]
 accent: "green"
 ---
 
+import DiffCode from "../../components/DiffCode.astro";
+
 **Gtheme** is the open-source CLI tool that applies a consistent theme across your entire Linux desktop with a single command. Your terminal, status bar, editor, wallpaper, and launcher all repaint at once. It works with any window manager, ships with 350+ curated themes, and runs on Rust (MIT/Apache-2.0). Preconfigured desktops with guaranteed compatibility are available for Hyprland and bspwm, with more on the way.
 
 ```
@@ -22,11 +24,8 @@ Gtheme collapses all of this into one verb. You define your desktop once. You ap
 
 ## Your config, before and after Gtheme
 
-Left: hand-edited `alacritty.toml` pinned to one theme. Right: a Gtheme pattern that works with all 350+ themes.
-
-**Without Gtheme** — hardcoded for Tokyo Night:
-
-```toml
+<DiffCode leftTitle="alacritty.toml — hardcoded for Tokyo Night" rightTitle="alacritty.pattern — works with any theme">
+  <Fragment slot="left">
 [colors.primary]
 background = "#1a1b26"
 foreground = "#c0caf5"
@@ -40,11 +39,8 @@ blue    = "#7aa2f7"
 magenta = "#bb9af7"
 cyan    = "#7dcfff"
 white   = "#a9b1d6"
-```
-
-**With Gtheme** — a pattern that works with any theme:
-
-```toml
+  </Fragment>
+  <Fragment slot="right">
 [colors.primary]
 background = "{{base00}}"
 foreground = "{{base05}}"
@@ -58,7 +54,8 @@ blue    = "{{blue}}"
 magenta = "{{magenta}}"
 cyan    = "{{cyan}}"
 white   = "{{base04}}"
-```
+  </Fragment>
+</DiffCode>
 
 Change your theme, and every hex value updates across every app automatically. No find-and-replace, no missed files.
 
