@@ -1,0 +1,156 @@
+---
+title: "Gtheme vs Pywal vs wpgtk vs chezmoi: Which Tool Actually Themes Your Whole Linux Desktop?"
+description: "A detailed comparison of four command-line tools for Linux desktop customization: what each one does, what it does not, and which one fits your workflow."
+date: 2026-07-30
+author: "David"
+tags: ["ricing", "theming", "comparison"]
+accent: "cyan"
+---
+
+import DiffCode from "../../components/DiffCode.astro";
+
+If you have spent time on r/unixporn, you have seen the question: which tool should I use to theme my desktop? Four names keep coming up: **Pywal**, **wpgtk**, **chezmoi**, and **Gtheme**. They all live in the terminal. They all touch your config files. But they solve fundamentally different problems, and picking the wrong one means you end up writing shell scripts to fill the gap.
+
+Here is the short version: Pywal and wpgtk generate colors from wallpapers. Chezmoi syncs dotfiles across machines. Gtheme applies a full desktop theme (colors, wallpapers, WM config, bar, terminal, editor) with one command. If you want to change everything at once, Gtheme is the only one that does it. If you want wallpaper-driven palettes, wpgtk. If you need dotfile version control across machines, chezmoi.
+
+## The four tools at a glance
+
+| | Gtheme | Pywal | wpgtk | chezmoi |
+|---|---|---|---|---|
+| **What it does** | Full desktop theming | Color extraction from images | Color + template management | Dotfile management |
+| **Scope** | Terminal, bar, editor, WM, wallpaper, launcher | Terminal colors + exported vars | Templates you write, colors you tune | Any text file you version |
+| **One-command full swap** | Yes: `gtheme apply` | No (colors only) | Partial (templates only) | No (file-by-file) |
+| **Themes included** | 350+ curated | 250+ built-in | 200+ from Pywal | None (you bring configs) |
+| **WM configs** | Preconfigured: Hyprland, bspwm | None | None | None |
+| **Interface** | CLI | CLI | CLI + GUI | CLI |
+| **Language** | Rust | Python | Python | Go |
+| **Status** | Active | Archived (Apr 2024) | Active | Active |
+| **License** | MIT / Apache 2.0 | MIT | GPLv2 | MIT |
+
+## Pywal: the pioneer, now archived
+
+Pywal was the tool that taught a generation of ricers that their wallpaper could drive their entire color palette. You point it at an image, it extracts five dominant colors, and it writes them everywhere: your terminal, your GTK theme, your bar, any program that reads Xresources or JSON.
+
+The magic was in the zero-config experience. Install Pywal, run `wal -i wallpaper.jpg`, and your terminal repaints instantly. No templates to write, no config to edit.
+
+The problem is that Pywal was archived in April 2024. It still works on many systems, but it will never get Wayland-native support, it will never get new backends, and it will never fix the edge cases that break on newer compositors. The 250 built-in themes are still usable, but the wallpaper-to-palette pipeline, its killer feature, is frozen in time.
+
+## wpgtk: Pywal with a GUI and templates
+
+wpgtk takes Pywal's color generation engine and wraps it in a GTK interface. You get a color picker, a wallpaper browser, and a template system that replaces keywords in your config files when you switch themes.
+
+The template system is the real upgrade over vanilla Pywal. You write a file like this:
+
+```
+background = {{color0}}
+foreground = {{color7}}
+accent    = {{color4}}
+```
+
+When you apply a new colorscheme, wpgtk fills those placeholders with the real hex values. This is the same idea behind Gtheme's pattern templating, but wpgtk limits you to the 16 ANSI-color slots Pywal generates. You cannot name your own variables, and you cannot reference theme metadata beyond raw color codes.
+
+wpgtk also ships `wpgtk.vim`, `wpgtk-templates`, and `wpgtk-colorschemes` as companion repos, so there is an ecosystem of shared templates. The GUI is functional, not polished, but it works.
+
+The trade-off: wpgtk is still Python, still depends on Pywal's archived engine, and still operates at the level of individual color slots. You theme one template at a time. There is no concept of a "desktop configuration" that bundles WM settings, bar layout, and wallpaper together.
+
+## chezmoi: dotfiles, not themes
+
+Chezmoi is the odd one in this list, and it is here because people keep asking "should I use chezmoi or Gtheme?" The answer is: you probably want both.
+
+Chezmoi manages your dotfiles across machines. It versions them, templates them with Go's text/template syntax, encrypts secrets, and applies changes with a dry-run diff. If you have a laptop and a desktop and want the same Neovim config on both, chezmoi is the right tool.
+
+But chezmoi does not know what a theme is. It does not know that Tokyo Night has a specific green, that your bar should use that green, and that your wallpaper should match. You can template colors in chezmoi: you would write `{{ .theme.base0A }}` in every config file, maintain a data file with every theme's hex values, and write a script to swap the data file. That is a theming system you built yourself, on top of a dotfiles manager.
+
+Gtheme and chezmoi compose well. Keep your dotfiles in chezmoi. In your bootstrap script, call `gtheme apply`. Chezmoi handles the machines. Gtheme handles the look.
+
+## Gtheme: the whole desktop, one command
+
+Gtheme treats a desktop theme as a coordinated unit: colors, fonts, wallpaper, WM configuration, bar layout, terminal palette, editor colorscheme. All of it. One command applies all of it.
+
+```
+$ gtheme desktop apply hyprland --theme tokyonight
+✓ repainted 42 targets in 128ms
+```
+
+The key difference from Pywal and wpgtk is preconfigured desktops. Gtheme ships fully configured setups for Hyprland and bspwm. You do not write a template and then debug why your bar colors are off. The desktop config is tested and guaranteed to work with every theme in the library.
+
+The key difference from chezmoi is scope. Gtheme knows that `tokyonight.base0A` is `#e0af68`, that your Waybar module should use it, and that the matching wallpaper is `tokyo-night-01.png`. You do not maintain a color database. You pick a theme and it applies.
+
+## Pattern templating: write once, theme everything
+
+Gtheme uses a template syntax that is simpler than wpgtk's keyword system and more powerful than chezmoi's Go templates:
+
+<DiffCode
+  leftTitle="alacritty.toml — hardcoded for one theme"
+  rightTitle="alacritty.pattern — works with any theme"
+  left={`[colors.primary]
+background = "#1a1b26"
+foreground = "#c0caf5"
+
+[colors.normal]
+black   = "#15161e"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#a9b1d6"`}
+  right={`[colors.primary]
+background = "{{base00}}"
+foreground = "{{base05}}"
+
+[colors.normal]
+black   = "{{base01}}"
+red     = "{{red}}"
+green   = "{{green}}"
+yellow  = "{{yellow}}"
+blue    = "{{blue}}"
+magenta = "{{magenta}}"
+cyan    = "{{cyan}}"
+white   = "{{base04}}"`}
+/>
+
+You write the template once. Gtheme fills the real values from whichever theme you apply. Change from Tokyo Night to Catppuccin, and every `{{base00}}` becomes Catppuccin's base, not Tokyo Night's. No find-and-replace across twelve files. No script to update.
+
+wpgtk's template system works the same way at the mechanical level, but you are locked to `{color0}` through `{color15}`, the 16 ANSI slots Pywal generates. Gtheme lets you reference any named variable the theme defines: `{{base00}}`, `{{red}}`, `{{accent}}`, `{{surface}}`. Themes can expose as many named colors as they need.
+
+## When to use which
+
+**Use Gtheme if** you want to change your entire desktop theme with one command. Colors, wallpaper, WM config, bar, terminal, editor. All of it. You want preconfigured desktops that work out of the box and 350+ themes that are verified against every supported app.
+
+**Use wpgtk if** you want a GUI for tweaking colors and you already have a template ecosystem built around Pywal's keyword system. wpgtk is especially good if you prefer to hand-pick every color in your palette.
+
+**Use Pywal if** you are on an older system that already works with it and you only need wallpaper-driven terminal colors. It is archived, but it still runs.
+
+**Use chezmoi if** you need to sync dotfiles across multiple machines and theming is secondary. Pair it with Gtheme for the actual theme swapping.
+
+## FAQ
+
+**Can I use Gtheme and wpgtk together?**
+
+They solve overlapping problems and will fight over your config files. Pick one as your theme manager. If you need a GUI for color tweaking, wpgtk is the choice. If you want full-desktop theming with preconfigured WM setups, Gtheme.
+
+**What happens to my existing dotfiles when I install Gtheme?**
+
+Nothing. Gtheme layers theming on top of your configs. You write pattern templates, and Gtheme generates themed files at apply time. Your original hand-crafted dotfiles stay untouched in version control.
+
+**Pywal is archived. Does Gtheme replace it?**
+
+For the "change my whole desktop" use case, yes. For the "generate a palette from this specific wallpaper" use case, no. Gtheme ships 350+ hand-curated themes with matching wallpapers. It does not extract a palette from an arbitrary image on disk. If that is your workflow, wpgtk is the closest active replacement.
+
+**Is chezmoi the wrong tool if I care about theming?**
+
+No. Chezmoi is the right tool for dotfile management. It is the wrong tool for theming. The two concerns are separate, and the best setup uses both: chezmoi for version control, Gtheme for theme application.
+
+## Getting started with Gtheme
+
+```
+$ git clone --depth 1 https://github.com/daavidrgz/gtheme.git
+$ cd gtheme && ./install.sh
+
+$ gtheme desktop apply hyprland --theme catppuccin
+✓ repainted 42 targets in 128ms
+```
+
+No daemon, no package to publish, no systemd unit. One binary, your configs, done.
