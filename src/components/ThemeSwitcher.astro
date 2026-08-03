@@ -1,6 +1,6 @@
 ---
 // The live demo: each chip swaps [data-theme] on <html>, re-coloring the
-// entire page through CSS custom properties — exactly what Gtheme does to a
+// entire page through CSS custom properties, exactly what Gtheme does to a
 // real desktop.
 const themes = [
   { id: "tokyonight", label: "Tokyo Night" },
@@ -146,7 +146,7 @@ const themes = [
       try {
         localStorage.setItem("gtheme:theme", theme);
       } catch {
-        /* storage blocked — theme still applies for this session */
+        /* storage blocked, theme still applies for this session */
       }
       sync(theme);
     });

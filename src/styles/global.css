@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------ *
- *  Gtheme landing — palettes are real ricing themes, swapped live via
+ *  Gtheme landing. Palettes are real ricing themes, swapped live via
  *  [data-theme] on <html>. The whole page is a working demo of the tool.
  * ------------------------------------------------------------------ */
 
@@ -271,7 +271,7 @@ p {
   font-size: clamp(1.7rem, 3.5vw, 2.5rem);
 }
 
-/* One committed accent — the live theme's own — not a rainbow gradient. */
+/* One committed accent, the live theme's own, not a rainbow gradient. */
 .grad {
   color: var(--accent);
 }

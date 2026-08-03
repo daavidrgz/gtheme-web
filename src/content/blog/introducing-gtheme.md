@@ -1,6 +1,6 @@
 ---
 title: "Introducing Gtheme"
-description: "Why we built a blazingly fast, centralized theme manager for *NIX — and how one command came to reskin an entire desktop."
+description: "Why we built a blazingly fast, centralized theme manager for *NIX, and how one command came to reskin an entire desktop."
 date: 2026-06-18
 author: "David"
 tags: ["announcement", "ricing"]
@@ -12,7 +12,7 @@ config files, six syntaxes, and a nagging feeling you missed one. Your terminal
 is Gruvbox, your bar is still Nord, and your editor is doing its own thing.
 
 **Gtheme fixes that.** Define your look once, and a single command repaints the
-whole desktop — terminal, status bar, editor, prompt, launcher, and wallpaper —
+whole desktop (terminal, status bar, editor, prompt, launcher, and wallpaper)
 consistently, every time.
 
 ## What it does
@@ -26,7 +26,7 @@ consistently, every time.
 ## Why Rust
 
 Because switching themes should feel instant. Gtheme's apply pass reads your
-central config, resolves every template, and writes every target in one go —
+central config, resolves every template, and writes every target in one go,
 fast enough that you'll actually change themes on a whim.
 
 ```console

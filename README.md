@@ -1,6 +1,6 @@
 # gtheme-web
 
-Landing page for [Gtheme](https://github.com/daavidrgz/gtheme) — the blazingly
+Landing page for [Gtheme](https://github.com/daavidrgz/gtheme), the blazingly
 fast dotfile & global theme manager for \*NIX.
 
 Built with [Astro](https://astro.build), deployed on

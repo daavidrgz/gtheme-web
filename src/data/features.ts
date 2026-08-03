@@ -34,7 +34,7 @@ export const features: Feature[] = [
     blocks: [
       {
         heading: "Every classic, hand-checked",
-        body: "Tokyo Night, Catppuccin, Gruvbox, Nord, Dracula, Rosé Pine, Kanagawa and hundreds more — each verified against every supported app so the greens are actually green and the contrast holds up.",
+        body: "Tokyo Night, Catppuccin, Gruvbox, Nord, Dracula, Rosé Pine, Kanagawa and hundreds more, each verified against every supported app so the greens are actually green and the contrast holds up.",
       },
       {
         heading: "Wallpapers travel with the palette",
@@ -63,7 +63,7 @@ export const features: Feature[] = [
     slug: "one-command",
     title: "One command",
     blurb:
-      "Swap your entire desktop — apps, colors, wallpaper — with a single invocation.",
+      "Swap your entire desktop (apps, colors, wallpaper) with a single invocation.",
     tagline: "Your whole desktop, restyled in one line.",
     icon: '<path d="M13 2 3 14h7l-1 8 10-12h-7z"/>',
     accent: "yellow",
@@ -102,7 +102,7 @@ export const features: Feature[] = [
         bullets: [
           "One config directory, version-controlled with your dotfiles",
           "Add or remove managed apps without touching the theme files",
-          "Reproducible across machines — clone and apply",
+          "Reproducible across machines, clone and apply",
         ],
       },
     ],
@@ -143,14 +143,14 @@ export const features: Feature[] = [
     slug: "desktops",
     title: "Plug 'n' play desktops",
     blurb:
-      "Install ready-made desktop configs from other people — everything just works.",
-    tagline: "Full, shareable desktop setups — clone and run.",
+      "Install ready-made desktop configs from other people, everything just works.",
+    tagline: "Full, shareable desktop setups, clone and run.",
     icon: '<path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/>',
     accent: "orange",
     blocks: [
       {
         heading: "A desktop is a package",
-        body: "A Gtheme desktop bundles a window manager, bar, launcher, and the patterns that tie them together. Install one and you get a complete, coherent environment — no hunting through screenshots and broken gists.",
+        body: "A Gtheme desktop bundles a window manager, bar, launcher, and the patterns that tie them together. Install one and you get a complete, coherent environment, no hunting through screenshots and broken gists.",
         bullets: [
           "Works with Hyprland, i3, Sway, KDE, GNOME, XFCE and more",
           "Community desktops shared through the gtheme-desktops repo",

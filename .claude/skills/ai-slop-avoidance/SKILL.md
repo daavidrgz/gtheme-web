@@ -13,7 +13,7 @@ The most damning thing someone can say about a design now is "this looks AI-gene
 
 ## Core principle: commit to choices
 
-AI slop usually comes from *not choosing*. Picking "clean and modern" isn't a choice; it's a shrug that defaults to the mean. The antidote is to commit to a specific aesthetic direction, even if it's wrong — wrong-but-committed beats right-but-generic.
+AI slop usually comes from *not choosing*. Picking "clean and modern" isn't a choice; it's a shrug that defaults to the mean. The antidote is to commit to a specific aesthetic direction, even if it's wrong: wrong-but-committed beats right-but-generic.
 
 See `skills/frontend-aesthetics/` for the positive side of this.
 
@@ -87,10 +87,10 @@ React, TypeScript, Stripe, Vercel… dumped into a row.
 ### 14. The generic "feature / benefit / CTA" structure
 Hero → 3 features in a row → bigger feature with screenshot → 3 testimonials → pricing → CTA. Identical across 10,000 sites.
 
-**Fix:** structure to the actual story. A landing page can be a long-scroll narrative, a single interactive demo, a gallery, a manifesto — not always the same module stack.
+**Fix:** structure to the actual story. A landing page can be a long-scroll narrative, a single interactive demo, a gallery, a manifesto, not always the same module stack.
 
 ### 15. Invented testimonials
-"This product changed my life!" — Sarah K, CEO, Acme Corp. With an avatar.
+"This product changed my life!" says Sarah K, CEO, Acme Corp. With an avatar.
 
 **Fix:** real testimonials or none. Blank space is better than fake trust.
 
@@ -115,7 +115,7 @@ Pink or purple sparkle next to anything that mentions AI.
 **Fix:** start with what the thing does. Beliefs come through craft, not declaration.
 
 ### 20. Avatars on things that don't need them
-A "team" icon, a "user" icon, a "customer" icon — all as little circular photos of AI-generated faces.
+A "team" icon, a "user" icon, a "customer" icon, all as little circular photos of AI-generated faces.
 
 **Fix:** use typography for these. Icons of abstract shapes if you must.
 
@@ -132,7 +132,7 @@ A "team" icon, a "user" icon, a "customer" icon — all as little circular photo
 
 - **Too many font families.** More than 3 = chaos.
 - **Fraunces on a tech site.** Overused for "AI-designed 2024."
-- **Arial / Roboto / Open Sans** as defaults — signals "didn't pick."
+- **Arial / Roboto / Open Sans** as defaults, signals "didn't pick."
 - **Display font in body.** Hard to read, shouts.
 
 ## Layout slop
@@ -144,8 +144,8 @@ A "team" icon, a "user" icon, a "customer" icon — all as little circular photo
 
 ## Motion slop
 
-- **Animating on every scroll** — parallax-everything, fade-everywhere.
-- **Spring bounce on buttons** — comical after two clicks.
+- **Animating on every scroll**, parallax-everything, fade-everywhere.
+- **Spring bounce on buttons**, comical after two clicks.
 - **Auto-play carousels** that no one watches.
 
 ---
@@ -162,7 +162,7 @@ One "yes" to the last two, or a "no" to the first, means more work.
 
 ## What good looks like
 
-A design that looks like someone made a choice. Specific fonts, specific colors, specific layout logic. Content that earns its place. Rhythm that's intentional. Even minimalism, done right, looks committed — Braun product pages, Stripe docs, Craigslist — not generic.
+A design that looks like someone made a choice. Specific fonts, specific colors, specific layout logic. Content that earns its place. Rhythm that's intentional. Even minimalism, done right, looks committed, like Braun product pages, Stripe docs, or Craigslist, not generic.
 
 ## Checklist
 
@@ -179,4 +179,4 @@ A design that looks like someone made a choice. Specific fonts, specific colors,
 
 ## Resources
 
-- `resources/examples.md` — annotated before/after pairs
+- `resources/examples.md`, annotated before/after pairs

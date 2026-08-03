@@ -1,6 +1,6 @@
 ---
 title: "A deep dive into pattern templating"
-description: "How Gtheme turns a single config pattern into a correctly themed file for any of 350+ palettes — no per-theme copies, no manual editing."
+description: "How Gtheme turns a single config pattern into a correctly themed file for any of 350+ palettes, no per-theme copies, no manual editing."
 date: 2026-06-30
 author: "David"
 tags: ["templating", "internals"]
@@ -31,7 +31,7 @@ writes the finished file to where the app expects it.
 
 ## Why this scales
 
-Adding a new theme costs nothing on the app side — every pattern already knows
+Adding a new theme costs nothing on the app side, because every pattern already knows
 how to render it. And adding a new app is a one-time job: drop in the
 placeholders once, and that app joins the themed set for all 350+ palettes at
 once.
