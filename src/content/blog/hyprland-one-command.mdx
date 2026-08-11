@@ -1,0 +1,83 @@
+---
+title: "How to switch your entire Hyprland rice with one command"
+description: "Use Gtheme to switch your whole Hyprland rice with one command. gtheme desktop apply hypr --theme tokyonight repaints your terminal, status bar, editor, launcher, and wallpaper together in a single pass. 350+ curated themes, any Hyprland setup, one invocation."
+date: 2026-08-11
+author: "David"
+tags: ["ricing", "hyprland", "theming"]
+accent: "blue"
+---
+
+import DiffCode from "../../components/DiffCode.astro";
+
+**Switch your entire Hyprland rice with one command by using Gtheme, an open-source theme manager for *NIX.** Instead of hand-editing your Hyprland config, Waybar, terminal, editor, and wallpaper one file at a time, Gtheme applies a complete theme across all of them in a single pass:
+
+```
+$ gtheme desktop apply hypr --theme tokyonight
+✓ repainted 42 targets in 128ms
+```
+
+That one command reskins the whole desktop: window manager colors, bar, launcher, terminal palette, editor scheme, and wallpaper, all in sync. It is written in Rust, free (MIT/Apache-2.0), and ships with 350+ curated themes and matching wallpapers.
+
+## Why a one-command switch matters on Hyprland
+
+Ricing Hyprland the manual way means touching a dozen files in as many syntaxes. Your Hyprland config sets the compositor colors. Waybar has its own CSS. Rofi, wofi, or fuzzel need their theme. Kitty, Alacritty, and foot want a palette. Neovim or VS Code a colorscheme. And your wallpaper is yet another file. Miss one and your rice splits into two identities: bar says Nord, editor is still Gruvbox.
+
+Gtheme collapses that into one verb. You define your desktop once, then any theme from the library repaints every managed target in a single pass, in well under a second.
+
+## Your config, before and after Gtheme
+
+<DiffCode
+  leftTitle="hardcoded for one palette"
+  rightTitle="a Gtheme pattern, works with any of 350+"
+  left={`# hyprland.conf, one color set
+general {
+  col.active_border = rgba(7aa2f7ee)
+  col.inactive_border = rgba(15161eee)
+}
+# now change every hex by hand to re-theme`}
+  right={`# hyprland.pattern, colors resolved per theme
+general {
+  col.active_border = rgba({{accent}}ee)
+  col.inactive_border = rgba({{base00}}ee)
+}
+# one apply swaps every value across every app`}
+/>
+
+Apply a new theme and every hex updates everywhere at once, no find-and-replace, no missed files.
+
+## What Gtheme manages on Hyprland
+
+| Surface | What changes |
+|---------|--------------|
+| Window manager | Hyprland colors and animation-consistent accents |
+| Status bar | Waybar (or Polybar) regen with theme colors |
+| Launcher | Rofi, wofi, or fuzzel themed |
+| Terminal | Kitty, Alacritty, foot palette |
+| Editor | Neovim, Helix, VS Code colorscheme |
+| Wallpaper | A matching wallpaper from the library, swapped automatically |
+
+A typical pass touches 42 targets and finishes in 128ms.
+
+## Which desktops are available
+
+Gtheme ships ready-made Hyprland desktops you can apply directly: the modern **hypr** desktop and the Material-You **caelestia** shell, both for Hyprland. Or point Gtheme at your own setup, define the pattern once, and get the same one-command switching across your own ricing.
+
+## Honest edges
+
+Gtheme is a theme manager, not a drop-in copy of a specific dotfiles repo. If your rice is a heavily hand-tuned set of scripts, the work is in the one-time port: expressing your config as patterns. The payoff is that from then on, switching your entire Hyprland rice is a single command, and the same themes follow you to any other *NIX desktop Gtheme supports.
+
+## FAQ
+
+**Do I need to rewrite my Hyprland config to use Gtheme?**
+You port your config once into Gtheme patterns (or start from a ready-made desktop like `hypr`). After that, every theme swap is one command.
+
+**How many themes can I switch between?**
+350+ curated themes and matching wallpapers, all applied the same way.
+
+**Does Gtheme change the whole rice or just the wallpaper?**
+The whole desktop: WM colors, bar, launcher, terminal, editor, and wallpaper, in a single pass.
+
+## Sources
+
+- [Gtheme GitHub repository](https://github.com/daavidrgz/gtheme)
+- [Gtheme desktop configs (hypr, caelestia and more)](https://github.com/daavidrgz/gtheme-desktops)
