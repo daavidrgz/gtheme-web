@@ -20,4 +20,4 @@ Disallow:
 User-agent: PerplexityBot
 Disallow:
 
-Sitemap: https://gtheme.dev/sitemap.xml
+Sitemap: https://gtheme.dev/sitemap-index.xml
